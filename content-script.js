@@ -118,7 +118,7 @@
 
     const copyBtn = document.createElement('button');
     copyBtn.textContent = 'Copy';
-    copyBtn.style.cssText = 'padding: 4px 8px; margin: 0 4px; cursor: pointer; border: 1px solid #ccc; border-radius: 4px; background: #fff;';
+    copyBtn.style.cssText = 'padding: 4px 8px; margin: 0 4px; cursor: pointer; border: 1px solid #ccc; border-radius: 4px; background: #fff; color: black !important;';
     copyBtn.addEventListener('click', () => {
       navigator.clipboard.writeText(container.textContent).then(() => {
         const originalText = copyBtn.textContent;
@@ -141,7 +141,7 @@
 
     const revertBtn = document.createElement('button');
     revertBtn.textContent = 'Revert';
-    revertBtn.style.cssText = 'padding: 4px 8px; margin: 0 4px; cursor: pointer; border: 1px solid #ccc; border-radius: 4px; background: #fff;';
+    revertBtn.style.cssText = 'padding: 4px 8px; margin: 0 4px; cursor: pointer; border: 1px solid #ccc; border-radius: 4px; background: #fff; color: black !important;';
     revertBtn.addEventListener('click', () => {
       const originalText = revertBtn.textContent;
       revertBtn.textContent = 'Reverting...';
