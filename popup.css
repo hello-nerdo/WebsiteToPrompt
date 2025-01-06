@@ -11,12 +11,3 @@ button {
   padding: 6px 10px;
   cursor: pointer;
 }
-
-textarea {
-  width: 100%;
-  box-sizing: border-box;
-}
-
-hr {
-  margin: 10px 0;
-}

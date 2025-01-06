@@ -1,6 +1,6 @@
 {
   "name": "WebsiteToPrompt",
-  "description": "Select web elements and generate an XML prompt snippet",
+  "description": "Select web elements and transform them to Markdown directly on the page",
   "version": "1.0.0",
   "manifest_version": 3,
 
