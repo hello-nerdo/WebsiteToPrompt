@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>WebsiteToPrompt</title>
+    <link rel="stylesheet" href="popup.css" />
+  </head>
+  <body>
+    <div class="popup-container">
+      <h1>WebsiteToPrompt</h1>
+      <!-- Toggle Inspect Mode -->
+      <button id="toggleSelectionBtn">Enable Inspect Mode</button>
+
+      <!-- Copy + Clear Buttons -->
+      <button id="copyBtn">Copy</button>
+      <hr />
+
+      <p style="font-weight: bold; margin-bottom: 5px">
+        Collected Elements (XML Format):
+      </p>
+      <textarea id="resultArea" rows="8" placeholder="Your elements in XML format..."></textarea>
+
+      <button id="clearBtn">Clear Stored Elements</button>
+    </div>
+
+    <script src="popup.js"></script>
+  </body>
+</html>

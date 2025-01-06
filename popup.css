@@ -1,0 +1,22 @@
+.popup-container {
+  width: 300px;
+  padding: 10px;
+  font-family: Arial, sans-serif;
+  color: #333;
+}
+
+button {
+  display: inline-block;
+  margin: 4px 0;
+  padding: 6px 10px;
+  cursor: pointer;
+}
+
+textarea {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+hr {
+  margin: 10px 0;
+}
