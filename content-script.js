@@ -15,14 +15,14 @@
     return html
       // Replace <br> with newline
       .replace(/<br\s*\/?>/gi, '\n')
-      // Replace <p> with double-newline
-      .replace(/<p\s*\/?>/gi, '\n\n')
+      // Replace <p> with newline
+      .replace(/<p\s*\/?>/gi, '\n') 
       // Remove any other HTML tags
       .replace(/<[^>]+>/g, '')
       // Normalize whitespace
       .replace(/[ \t]+/g, ' ')
       // Collapse multiple newlines
-      .replace(/\n{2,}/g, '\n')
+      .replace(/\n+/g, '\n')
       .trim();
   }
 
