@@ -1,22 +1,29 @@
 console.log('Popup script loaded.');
 
-// Only keep the Inspect Mode toggle; remove old data-gathering logic
+// Extract toggle functionality into reusable function
+function toggleSelection(toggleButton, enabled) {
+  const newState = enabled ?? !selectionEnabled; // Allow passing state or toggling
+  selectionEnabled = newState;
+  toggleButton.textContent = newState ? 'Disable Inspect Mode' : 'Enable Inspect Mode';
+  
+  // Notify content script
+  chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+    chrome.tabs.sendMessage(tabs[0].id, {
+      type: 'TOGGLE_SELECTION_MODE',
+      enabled: newState,
+    });
+  });
+}
+
+// Use it in the DOMContentLoaded handler
 document.addEventListener('DOMContentLoaded', () => {
   const toggleSelectionBtn = document.getElementById('toggleSelectionBtn');
-  let selectionEnabled = false;
-
+  
+  // Enable automatically on popup open
+  toggleSelection(toggleSelectionBtn, true);
+  
+  // Keep click handler for manual toggling
   toggleSelectionBtn.addEventListener('click', () => {
-    selectionEnabled = !selectionEnabled;
-    toggleSelectionBtn.textContent = selectionEnabled
-      ? 'Disable Inspect Mode'
-      : 'Enable Inspect Mode';
-
-    // Notify content script of the toggle
-    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-      chrome.tabs.sendMessage(tabs[0].id, {
-        type: 'TOGGLE_SELECTION_MODE',
-        enabled: selectionEnabled,
-      });
-    });
+    toggleSelection(toggleSelectionBtn);
   });
 });
