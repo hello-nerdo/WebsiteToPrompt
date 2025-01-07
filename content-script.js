@@ -4,27 +4,23 @@
   let selectionMode = false;
   let highlightOverlay = null;
 
+  const turndownService = new TurndownService({
+    headingStyle: 'atx',
+    codeBlockStyle: 'fenced',
+    bulletListMarker: '-',
+    emDelimiter: '_',
+    strongDelimiter: '**',
+    linkStyle: 'inlined',
+    linkReferenceStyle: 'full',
+    preformattedCode: true
+  });
+
+  function htmlToMarkdown(html) {
+    return turndownService.turndown(html);
+  }
+
   // Inject minimal CSS for .website-to-prompt-container & controls
   injectStyles();
-
-  /**
-   * Very naive HTML -> Markdown converter (same approach as original).
-   * For richer conversions, use Turndown or another library.
-   */
-  function htmlToMarkdown(html) {
-    return html
-      // Replace <br> with newline
-      .replace(/<br\s*\/?>/gi, '\n')
-      // Replace <p> with newline
-      .replace(/<p\s*\/?>/gi, '\n') 
-      // Remove any other HTML tags
-      .replace(/<[^>]+>/g, '')
-      // Normalize whitespace
-      .replace(/[ \t]+/g, ' ')
-      // Collapse multiple newlines
-      .replace(/\n+/g, '\n')
-      .trim();
-  }
 
   /**
    * Toggle Inspect Mode message from popup.
@@ -97,17 +93,19 @@
     const selectorPath = getElementSelectorPath(element);
     const uniqueId = window.location.pathname + '//' + selectorPath;
 
-    // Store the original HTML in localStorage under this unique key
+    // Store the original HTML
     localStorage.setItem(uniqueId, originalHTML);
 
-    // Convert HTML to Markdown
+    // -------------------------------------------------------------------
+    // 3) Convert using Turndown
+    // -------------------------------------------------------------------
     const markdown = htmlToMarkdown(originalHTML);
 
-    // Create a container to display the Markdown
+    // Create container to display the Markdown
     const container = document.createElement('div');
     container.className = 'website-to-prompt-container';
     container.setAttribute('data-wtp-id', uniqueId);
-    container.setAttribute('contenteditable', 'true'); // Make the container editable
+    container.setAttribute('contenteditable', 'true');
     container.textContent = markdown;
 
     // Add the control buttons (Copy, Revert)
