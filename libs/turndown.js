@@ -528,15 +528,6 @@ var TurndownService = (function () {
     return next;
   }
 
-  /**
-   * next(prev, current, isPre) returns the next node in the sequence, given the
-   * current and previous nodes.
-   *
-   * @param {Node} prev
-   * @param {Node} current
-   * @param {Function} isPre
-   * @return {Node}
-   */
   function next(prev, current, isPre) {
     if ((prev && prev.parentNode === current) || isPre(current)) {
       return current.nextSibling || current.parentNode;
@@ -545,15 +536,7 @@ var TurndownService = (function () {
     return current.firstChild || current.nextSibling || current.parentNode;
   }
 
-  /*
-   * Set up window for Node.js
-   */
-
   var root = typeof window !== 'undefined' ? window : {};
-
-  /*
-   * Parsing HTML strings
-   */
 
   function canParseHTMLNatively() {
     var Parser = root.DOMParser;
@@ -613,9 +596,6 @@ var TurndownService = (function () {
     var root;
     if (typeof input === 'string') {
       var doc = htmlParser().parseFromString(
-        // DOM parsers arrange elements in the <head> and <body>.
-        // Wrapping in a custom element ensures elements are reliably arranged in
-        // a single element.
         '<x-turndown id="turndown-root">' + input + '</x-turndown>',
         'text/html'
       );
@@ -668,12 +648,10 @@ var TurndownService = (function () {
 
     var edges = edgeWhitespace(node.textContent);
 
-    // abandon leading ASCII WS if left-flanked by ASCII WS
     if (edges.leadingAscii && isFlankedByWhitespace('left', node, options)) {
       edges.leading = edges.leadingNonAscii;
     }
 
-    // abandon trailing ASCII WS if right-flanked by ASCII WS
     if (edges.trailingAscii && isFlankedByWhitespace('right', node, options)) {
       edges.trailing = edges.trailingNonAscii;
     }
@@ -766,13 +744,6 @@ var TurndownService = (function () {
   }
 
   TurndownService.prototype = {
-    /**
-     * The entry point for converting a string or DOM node to Markdown
-     * @public
-     * @param {String|HTMLElement} input The string or DOM node to convert
-     * @returns A Markdown representation of the input
-     * @type String
-     */
 
     turndown: function (input) {
       if (!canConvert(input)) {
@@ -785,13 +756,6 @@ var TurndownService = (function () {
       return postProcess.call(this, output);
     },
 
-    /**
-     * Add one or more plugins
-     * @public
-     * @param {Function|Array} plugin The plugin or array of plugins to add
-     * @returns The Turndown instance for chaining
-     * @type Object
-     */
 
     use: function (plugin) {
       if (Array.isArray(plugin)) {
@@ -804,53 +768,24 @@ var TurndownService = (function () {
       return this;
     },
 
-    /**
-     * Adds a rule
-     * @public
-     * @param {String} key The unique key of the rule
-     * @param {Object} rule The rule
-     * @returns The Turndown instance for chaining
-     * @type Object
-     */
 
     addRule: function (key, rule) {
       this.rules.add(key, rule);
       return this;
     },
 
-    /**
-     * Keep a node (as HTML) that matches the filter
-     * @public
-     * @param {String|Array|Function} filter The unique key of the rule
-     * @returns The Turndown instance for chaining
-     * @type Object
-     */
 
     keep: function (filter) {
       this.rules.keep(filter);
       return this;
     },
 
-    /**
-     * Remove a node that matches the filter
-     * @public
-     * @param {String|Array|Function} filter The unique key of the rule
-     * @returns The Turndown instance for chaining
-     * @type Object
-     */
 
     remove: function (filter) {
       this.rules.remove(filter);
       return this;
     },
 
-    /**
-     * Escapes Markdown syntax
-     * @public
-     * @param {String} string The string to escape
-     * @returns A string with Markdown syntax escaped
-     * @type String
-     */
 
     escape: function (string) {
       return escapes.reduce(function (accumulator, escape) {
@@ -859,13 +794,6 @@ var TurndownService = (function () {
     },
   };
 
-  /**
-   * Reduces a DOM node down to its Markdown string equivalent
-   * @private
-   * @param {HTMLElement} parentNode The node to convert
-   * @returns A Markdown representation of the node
-   * @type String
-   */
 
   function process(parentNode) {
     var self = this;
@@ -887,13 +815,6 @@ var TurndownService = (function () {
     );
   }
 
-  /**
-   * Appends strings as each rule requires and trims the output
-   * @private
-   * @param {String} output The conversion output
-   * @returns A trimmed version of the ouput
-   * @type String
-   */
 
   function postProcess(output) {
     var self = this;
@@ -906,13 +827,6 @@ var TurndownService = (function () {
     return output.replace(/^[\t\r\n]+/, '').replace(/[\t\r\n\s]+$/, '');
   }
 
-  /**
-   * Converts an element node to its Markdown equivalent
-   * @private
-   * @param {HTMLElement} node The node to convert
-   * @returns A Markdown representation of the node
-   * @type String
-   */
 
   function replacementForNode(node) {
     var rule = this.rules.forNode(node);
@@ -922,14 +836,6 @@ var TurndownService = (function () {
     return whitespace.leading + rule.replacement(content, node, this.options) + whitespace.trailing;
   }
 
-  /**
-   * Joins replacement to the current output with appropriate number of new lines
-   * @private
-   * @param {String} output The current conversion output
-   * @param {String} replacement The string to append to the output
-   * @returns Joined output
-   * @type String
-   */
 
   function join(output, replacement) {
     var s1 = trimTrailingNewlines(output);
@@ -940,13 +846,6 @@ var TurndownService = (function () {
     return s1 + separator + s2;
   }
 
-  /**
-   * Determines whether an input can be converted
-   * @private
-   * @param {String|HTMLElement} input Describe this parameter
-   * @returns Describe what it returns
-   * @type String|Object|Array|Boolean|Number
-   */
 
   function canConvert(input) {
     return (
