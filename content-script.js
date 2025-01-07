@@ -1,4 +1,4 @@
-(function() {
+(function () {
   console.log('WebsiteToPrompt content script loaded.');
 
   let selectionMode = false;
@@ -12,7 +12,7 @@
     strongDelimiter: '**',
     linkStyle: 'inlined',
     linkReferenceStyle: 'full',
-    preformattedCode: true
+    preformattedCode: true,
   });
 
   function htmlToMarkdown(html) {
@@ -116,30 +116,35 @@
 
     const copyBtn = document.createElement('button');
     copyBtn.textContent = 'Copy';
-    copyBtn.style.cssText = 'padding: 4px 8px; margin: 0 4px; cursor: pointer; border: 1px solid #ccc; border-radius: 4px; background: #fff; color: black !important;';
+    copyBtn.style.cssText =
+      'padding: 4px 8px; margin: 0 4px; cursor: pointer; border: 1px solid #ccc; border-radius: 4px; background: #fff; color: black !important;';
     copyBtn.addEventListener('click', () => {
-      navigator.clipboard.writeText(container.textContent).then(() => {
-        const originalText = copyBtn.textContent;
-        copyBtn.textContent = 'Copied!';
-        copyBtn.style.backgroundColor = '#e6ffe6';
-        setTimeout(() => {
-          copyBtn.textContent = originalText;
-          copyBtn.style.backgroundColor = '#fff';
-        }, 1500);
-      }).catch(err => {
-        console.warn('Copy failed', err);
-        copyBtn.textContent = 'Copy failed';
-        copyBtn.style.backgroundColor = '#ffe6e6';
-        setTimeout(() => {
-          copyBtn.textContent = 'Copy';
-          copyBtn.style.backgroundColor = '#fff';
-        }, 1500);
-      });
+      navigator.clipboard
+        .writeText(container.textContent)
+        .then(() => {
+          const originalText = copyBtn.textContent;
+          copyBtn.textContent = 'Copied!';
+          copyBtn.style.backgroundColor = '#e6ffe6';
+          setTimeout(() => {
+            copyBtn.textContent = originalText;
+            copyBtn.style.backgroundColor = '#fff';
+          }, 1500);
+        })
+        .catch((err) => {
+          console.warn('Copy failed', err);
+          copyBtn.textContent = 'Copy failed';
+          copyBtn.style.backgroundColor = '#ffe6e6';
+          setTimeout(() => {
+            copyBtn.textContent = 'Copy';
+            copyBtn.style.backgroundColor = '#fff';
+          }, 1500);
+        });
     });
 
     const revertBtn = document.createElement('button');
     revertBtn.textContent = 'Revert';
-    revertBtn.style.cssText = 'padding: 4px 8px; margin: 0 4px; cursor: pointer; border: 1px solid #ccc; border-radius: 4px; background: #fff; color: black !important;';
+    revertBtn.style.cssText =
+      'padding: 4px 8px; margin: 0 4px; cursor: pointer; border: 1px solid #ccc; border-radius: 4px; background: #fff; color: black !important;';
     revertBtn.addEventListener('click', () => {
       const originalText = revertBtn.textContent;
       revertBtn.textContent = 'Reverting...';
@@ -201,7 +206,7 @@
         subSelector += `:nth-child(${index})`;
       }
 
-      path = path ? (subSelector + '>' + path) : subSelector;
+      path = path ? subSelector + '>' + path : subSelector;
       current = current.parentElement;
     }
 
