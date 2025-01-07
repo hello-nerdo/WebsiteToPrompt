@@ -14,7 +14,7 @@ chrome.runtime.onInstalled.addListener(() => {
 
 // Helper to update the context menu title based on current state
 function updateContextMenuTitle() {
-  const newTitle = inspectModeEnabled ? 'Disable Inspect Mode' : 'Enable Inspect Mode';
+  const newTitle = "Inspect Mode"
   chrome.contextMenus.update('toggleInspectMode', { title: newTitle });
 }
 

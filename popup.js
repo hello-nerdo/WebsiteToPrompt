@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
   chrome.runtime.sendMessage({ type: 'REQUEST_INSPECT_MODE_STATUS' }, (response) => {
     if (response && typeof response.enabled === 'boolean') {
       selectionEnabled = response.enabled;
-      toggleSelectionBtn.textContent = selectionEnabled ? 'Disable Inspect Mode' : 'Enable Inspect Mode';
+      toggleSelectionBtn.textContent = "Inspect Mode"
     }
   });
 
@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
   chrome.runtime.onMessage.addListener((message) => {
     if (message.type === 'INSPECT_MODE_STATUS') {
       selectionEnabled = message.enabled;
-      toggleSelectionBtn.textContent = selectionEnabled ? 'Disable Inspect Mode' : 'Enable Inspect Mode';
+      toggleSelectionBtn.textContent = "Inspect Mode"
     }
   });
 
