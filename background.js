@@ -7,7 +7,7 @@ let inspectModeEnabled = false;
 chrome.runtime.onInstalled.addListener(() => {
   chrome.contextMenus.create({
     id: 'toggleInspectMode',
-    title: 'Enable Inspect Mode',
+    title: 'Inspect Mode',
     contexts: ['all'],
   });
 });
