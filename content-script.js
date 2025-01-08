@@ -16,7 +16,8 @@
   });
 
   function htmlToMarkdown(html) {
-    return turndownService.turndown(html);
+    const markdown = turndownService.turndown(html).trim();
+    return markdown.replace(/\n{3,}/g, '\n\n').trim();
   }
 
   // Inject minimal CSS for highlighting
