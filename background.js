@@ -12,24 +12,17 @@ chrome.runtime.onInstalled.addListener(() => {
     contexts: ['all'],
   });
 
-  // 2) New menu item: Open the Prompt Dashboard
+  // 2) New menu item: Open the WebsiteToPrompt Dashboard
   chrome.contextMenus.create({
     id: 'openDashboard',
-    title: 'Open Prompt Dashboard',
+    title: 'Open WebsiteToPrompt Dashboard',
     contexts: ['all'],
   });
 });
 
-// Helper to update the context menu title based on current state
-function updateContextMenuTitle() {
-  const newTitle = 'Selection Mode';
-  chrome.contextMenus.update('toggleSelectionMode', { title: newTitle });
-}
-
 // Toggle Selection Mode and notify content script + popup
 function toggleSelectionMode(tabId, newState) {
   inspectModeEnabled = newState;
-  updateContextMenuTitle();
 
   // If we don't have a valid tabId, fall back to querying the active tab
   if (tabId === undefined || tabId < 0) {
@@ -59,7 +52,7 @@ function toggleSelectionMode(tabId, newState) {
 // Listen for context menu clicks
 chrome.contextMenus.onClicked.addListener((info, tab) => {
   if (info.menuItemId === 'toggleSelectionMode') {
-    toggleSelectionMode(tab?.id, !inspectModeEnabled);
+    toggleSelectionMode(tab?.id, true);
   } else if (info.menuItemId === 'openDashboard') {
     // Open the new dashboard page in a new tab
     chrome.tabs.create({ url: chrome.runtime.getURL('dashboard.html') });

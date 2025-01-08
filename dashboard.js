@@ -268,6 +268,25 @@ class DashboardManager {
     // Rendering
     renderDashboard() {
       const grouped = this.groupPrompts();
+      
+      // Auto-select first group and prompt if nothing is selected
+      if (!this.state.selectedGroup && Object.keys(grouped).length > 0) {
+          const firstGroup = Object.keys(grouped)[0];
+          this.state.selectedGroup = firstGroup;
+          
+          // Select first prompt in group if it exists
+          const firstPrompt = grouped[firstGroup][0];
+          if (firstPrompt) {
+              this.state.selectedPrompts.clear();
+              this.state.selectedPrompts.add(firstPrompt.id);
+              // Show details for first prompt
+              setTimeout(() => {
+                  this.showDetails(firstPrompt.id);
+                  this.updateSelectionControls();
+              }, 50);
+          }
+      }
+
       this.renderGroupsList(grouped);
       this.renderPromptsList();
     }

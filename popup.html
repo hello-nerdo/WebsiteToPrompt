@@ -4,29 +4,134 @@
     <meta charset="UTF-8" />
     <title>WebsiteToPrompt</title>
     <style>
+      /* Reset default styles */
+      body {
+        margin: 0;
+        padding: 0;
+        background: white;
+      }
+
       .popup-container {
-        width: 300px;
-        padding: 10px;
-        font-family: Arial, sans-serif;
-        color: #333;
+        width: 320px;
+        padding: 24px 24px 0;
+        font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        text-align: center;
       }
 
       button {
-        display: inline-block;
-        margin: 4px 0;
-        padding: 6px 10px;
+        display: block;
+        margin: 8px auto;
+        padding: 12px 24px;
         cursor: pointer;
+        border-radius: 24px;
+        font-weight: 500;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+      }
+
+      #toggleSelectionBtn {
+        background: linear-gradient(to bottom, #4a5568, #2d3748);
+        color: white;
+        border: none;
+        font-size: 1.1rem;
+        padding: 14px 28px;
+      }
+
+      #toggleSelectionBtn:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      }
+
+      #openDashboardBtn {
+        background: transparent;
+        color: #2d3748;
+        border: 2px solid #4a5568;
+      }
+
+      #openDashboardBtn:hover {
+        background: rgba(74, 85, 104, 0.1);
+      }
+
+      .donation-container {
+        margin: 1.5rem -24px 0;
+        background: #ffd700;
+      }
+
+      .donation-button {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        padding: 8px;
+        border: none;
+        background: none;
+        color: #1a202c;
+        font-weight: 600;
+        font-size: 1rem;
+      }
+
+      .donation-button img.profile-pic {
+        width: 24px;
+        height: 24px;
+        margin-right: 8px;
+        border-radius: 50%;
+      }
+
+      .header {
+        margin: -24px -24px 24px;
+        padding: 16px 24px;
+        border-bottom: 1px solid #e2e8f0;
+        display: flex;
+        justify-content: center;
+        position: relative;
+      }
+
+      .header h1 {
+        margin: 0;
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: #1a202c;
+      }
+
+      #githubLink {
+        position: absolute;
+        right: 24px;
+        top: 50%;
+        transform: translateY(-50%);
       }
     </style>
   </head>
   <body>
     <div class="popup-container">
-      <h1>WebsiteToPrompt</h1>
+      <div class="header">
+        <h1>
+          WebsiteToPrompt
+          <a href="#" id="githubLink" style="text-decoration: none;">
+            <img 
+              src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Octicons-mark-github.svg/1200px-Octicons-mark-github.svg.png"
+              alt="GitHub"
+              style="height: 20px; vertical-align: middle; margin-left: 10px;"
+            >
+          </a>
+        </h1>
+      </div>
       <!-- Toggle Selection Mode -->
       <button id="toggleSelectionBtn">Selection Mode</button>
 
       <!-- NEW: Open Dashboard -->
       <button id="openDashboardBtn">Open Dashboard</button>
+
+      <div class="donation-container">
+        <a
+          href="https://www.buymeacoffee.com/hello_nerdzs"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="donation-button"
+        >
+          <img src="logo.png" alt="Profile" class="profile-pic" />
+          <span>yarn add coffee</span>
+        </a>
+      </div>
     </div>
 
     <script src="popup.js"></script>

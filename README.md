@@ -10,9 +10,9 @@ A Chrome extension that lets you select HTML elements on a webpage (via a simple
    - Hover/click on elements in the current tab to capture them.
    - Captured elements are automatically converted to Markdown and stored.
 
-2. **Prompt Dashboard**:
+2. **WebsiteToPrompt Dashboard**:
 
-   - Open via popup button or context menu: "Open Prompt Dashboard."
+   - Open via popup button or context menu: "Open WebsiteToPrompt Dashboard."
    - View, search, delete, or export your saved prompts.
    - Each prompt includes a timestamp, URL, element path, HTML, and generated Markdown.
 
@@ -32,7 +32,7 @@ A Chrome extension that lets you select HTML elements on a webpage (via a simple
 1. Click the extension icon to open the popup.
 2. Toggle **"Selection Mode"**. Hover over the desired element in the active webpage and click it to capture.
 3. The selected element is replaced in-page with a Markdown snippet. The original HTML is auto-saved in the extension’s local storage.
-4. To manage your saved prompts, open the **Prompt Dashboard** either from the popup or the context menu ("Open Prompt Dashboard").
+4. To manage your saved prompts, open the **WebsiteToPrompt Dashboard** either from the popup or the context menu ("Open WebsiteToPrompt Dashboard").
 5. In the dashboard:
    - **Search** prompts by URL or text.
    - **Delete** selected prompts.
