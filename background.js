@@ -1,14 +1,14 @@
 console.log('WebsiteToPrompt background script running...');
 
-// Track whether Inspect Mode is enabled
+// Track whether Selection Mode is enabled
 let inspectModeEnabled = false;
 
 // Create the context menus when the extension is installed or updated
 chrome.runtime.onInstalled.addListener(() => {
-  // 1) Inspect Mode menu
+  // 1) Selection Mode menu
   chrome.contextMenus.create({
-    id: 'toggleInspectMode',
-    title: 'Inspect Mode',
+    id: 'toggleSelectionMode',
+    title: 'Selection Mode',
     contexts: ['all'],
   });
 
@@ -22,12 +22,12 @@ chrome.runtime.onInstalled.addListener(() => {
 
 // Helper to update the context menu title based on current state
 function updateContextMenuTitle() {
-  const newTitle = 'Inspect Mode';
-  chrome.contextMenus.update('toggleInspectMode', { title: newTitle });
+  const newTitle = 'Selection Mode';
+  chrome.contextMenus.update('toggleSelectionMode', { title: newTitle });
 }
 
-// Toggle Inspect Mode and notify content script + popup
-function toggleInspectMode(tabId, newState) {
+// Toggle Selection Mode and notify content script + popup
+function toggleSelectionMode(tabId, newState) {
   inspectModeEnabled = newState;
   updateContextMenuTitle();
 
@@ -58,8 +58,8 @@ function toggleInspectMode(tabId, newState) {
 
 // Listen for context menu clicks
 chrome.contextMenus.onClicked.addListener((info, tab) => {
-  if (info.menuItemId === 'toggleInspectMode') {
-    toggleInspectMode(tab?.id, !inspectModeEnabled);
+  if (info.menuItemId === 'toggleSelectionMode') {
+    toggleSelectionMode(tab?.id, !inspectModeEnabled);
   } else if (info.menuItemId === 'openDashboard') {
     // Open the new dashboard page in a new tab
     chrome.tabs.create({ url: chrome.runtime.getURL('dashboard.html') });
@@ -70,10 +70,10 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if (request.type === 'TOGGLE_SELECTION_MODE') {
     // Toggling from the popup
-    toggleInspectMode(sender.tab?.id, request.enabled);
+    toggleSelectionMode(sender.tab?.id, request.enabled);
     sendResponse({ status: 'ok' });
   } else if (request.type === 'REQUEST_INSPECT_MODE_STATUS') {
-    // Popup asking for the current Inspect Mode status
+    // Popup asking for the current Selection Mode status
     sendResponse({ enabled: inspectModeEnabled });
   } 
   else if (request.type === 'openDashboard') {

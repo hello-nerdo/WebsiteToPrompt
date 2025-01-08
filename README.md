@@ -4,7 +4,7 @@ A Chrome extension that lets you select HTML elements on a webpage (via a simple
 
 ## Features
 
-1. **Inspect Mode**:
+1. **Selection Mode**:
 
    - Toggle from the extension popup or context menu.
    - Hover/click on elements in the current tab to capture them.
@@ -30,7 +30,7 @@ A Chrome extension that lets you select HTML elements on a webpage (via a simple
 ## How to Use
 
 1. Click the extension icon to open the popup.
-2. Toggle **"Inspect Mode"**. Hover over the desired element in the active webpage and click it to capture.
+2. Toggle **"Selection Mode"**. Hover over the desired element in the active webpage and click it to capture.
 3. The selected element is replaced in-page with a Markdown snippet. The original HTML is auto-saved in the extension’s local storage.
 4. To manage your saved prompts, open the **Prompt Dashboard** either from the popup or the context menu ("Open Prompt Dashboard").
 5. In the dashboard:

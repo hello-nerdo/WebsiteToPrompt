@@ -1,16 +1,16 @@
 console.log('Popup script loaded.');
 
-// Only keep the Inspect Mode toggle; remove old data-gathering logic
+// Only keep the Selection Mode toggle; remove old data-gathering logic
 document.addEventListener('DOMContentLoaded', () => {
   const toggleSelectionBtn = document.getElementById('toggleSelectionBtn');
   let selectionEnabled = false;
 
-  // Ask the background script for the current Inspect Mode state
+  // Ask the background script for the current Selection Mode state
   chrome.runtime.sendMessage({ type: 'REQUEST_INSPECT_MODE_STATUS' }, (response) => {
     if (response && typeof response.enabled === 'boolean') {
       selectionEnabled = response.enabled;
       // Dynamically set the button text
-      toggleSelectionBtn.textContent = selectionEnabled ? 'Disable Inspect' : 'Enable Inspect';
+      toggleSelectionBtn.textContent = selectionEnabled ? 'Disable Selection' : 'Enable Selection';
     }
   });
 
@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
   chrome.runtime.onMessage.addListener((message) => {
     if (message.type === 'INSPECT_MODE_STATUS') {
       selectionEnabled = message.enabled;
-      toggleSelectionBtn.textContent = selectionEnabled ? 'Disable Inspect' : 'Enable Inspect';
+      toggleSelectionBtn.textContent = selectionEnabled ? 'Disable Selection' : 'Enable Selection';
     }
   });
 
