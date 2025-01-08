@@ -129,6 +129,10 @@ class DashboardManager {
           if (!grouped[date]) grouped[date] = [];
           grouped[date].push(prompt);
         });
+      } else if (this.state.viewMode === 'all') {
+        // Sort all prompts by timestamp
+        const sortedPrompts = [...this.state.prompts].sort((a, b) => b.timestamp - a.timestamp);
+        grouped['all'] = sortedPrompts;
       } else {
         return {};
       }

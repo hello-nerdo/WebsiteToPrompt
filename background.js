@@ -31,8 +31,18 @@ function toggleInspectMode(tabId, newState) {
   inspectModeEnabled = newState;
   updateContextMenuTitle();
 
-  // Notify the content script in the current tab (if available)
-  if (tabId !== undefined) {
+  // If we don't have a valid tabId, fall back to querying the active tab
+  if (tabId === undefined || tabId < 0) {
+    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+      if (tabs && tabs.length > 0) {
+        chrome.tabs.sendMessage(tabs[0].id, {
+          type: 'TOGGLE_SELECTION_MODE',
+          enabled: inspectModeEnabled,
+        });
+      }
+    });
+  } else {
+    // Notify the content script in the current tab (if available)
     chrome.tabs.sendMessage(tabId, {
       type: 'TOGGLE_SELECTION_MODE',
       enabled: inspectModeEnabled,

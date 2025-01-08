@@ -79,9 +79,9 @@
     // Convert + replace the clicked element
     transformElement(e.target);
 
-    // OPTIONAL: Comment these out to allow multiple captures in a row
-    // disableSelectionMode();
-    // selectionMode = false;
+    // OPTIONAL: If you want to disable auto after one selection, uncomment:
+    disableSelectionMode();
+    selectionMode = false;
   }
 
   /**
@@ -249,12 +249,13 @@
     return path;
   }
 
-  // Create the highlight overlay (blue-ish rectangle).
+  // Create the highlight overlay (semi-transparent rectangle).
   function createOverlayElement() {
     highlightOverlay = document.createElement('div');
     highlightOverlay.id = 'websiteToPrompt_highlightOverlay';
     highlightOverlay.style.position = 'absolute';
-    highlightOverlay.style.zIndex = 9999;
+    // Increase zIndex so it’s always on top
+    highlightOverlay.style.zIndex = '999999';
     highlightOverlay.style.backgroundColor = 'rgba(135,206,235, 0.3)';
     highlightOverlay.style.pointerEvents = 'none';
     highlightOverlay.style.border = '2px solid #00f';
