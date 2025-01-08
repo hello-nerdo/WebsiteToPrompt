@@ -176,6 +176,25 @@
         gap: 0.5rem;
       }
 
+      .selection-controls button {
+        padding: 0.5rem 1rem;
+        border: 1px solid #e5e5e5;
+        border-radius: 4px;
+        background: #fff;
+        cursor: pointer;
+        transition: background-color 0.3s, border-color 0.3s;
+      }
+
+      .selection-controls button:hover {
+        background: #e5e7ff;
+        border-color: #6366f1;
+      }
+
+      .selection-controls button:active {
+        background: #d1d5ff;
+        border-color: #4f46e5;
+      }
+
       /* Utilities */
       .hidden {
         display: none;
@@ -211,7 +230,7 @@
           <div class="selection-controls" id="selectionControls">
             <span class="selected-count">0 selected</span>
             <button class="select-all-btn">Select All</button>
-            <button class="export-btn">Export</button>
+            <button class="export-btn">Copy</button>
             <button class="delete-btn">Delete</button>
           </div>
           <!-- Prompts will be inserted here -->
@@ -222,8 +241,6 @@
         </div>
       </main>
     </div>
-
-    <!-- IMPORTANT: Load the dashboard logic -->
     <script src="dashboard.js"></script>
   </body>
 </html>

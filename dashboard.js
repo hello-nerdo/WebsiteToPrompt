@@ -421,3 +421,24 @@ class DashboardManager {
     }
   });
   
+  document.addEventListener('DOMContentLoaded', function () {
+    const exportBtn = document.querySelector('.export-btn');
+    const selectAllBtn = document.querySelector('.select-all-btn');
+    const deleteBtn = document.querySelector('.delete-btn');
+
+    function addFeedback(button, feedbackText, originalText) {
+      button.addEventListener('click', function () {
+        // Change the button text to provide feedback
+        button.textContent = feedbackText;
+        // Revert the text back after 2 seconds
+        setTimeout(() => {
+          button.textContent = originalText;
+        }, 2000);
+      });
+    }
+
+    addFeedback(exportBtn, 'Copied!', 'Copy');
+    addFeedback(selectAllBtn, 'Selected All!', 'Select All');
+    addFeedback(deleteBtn, 'Deleted!', 'Delete');
+  });
+  
