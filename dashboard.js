@@ -224,27 +224,34 @@ class DashboardManager {
   
       const details = `
         <div class="details-section">
-            <div>
-                ${new Date(prompt.timestamp).toLocaleString()}
-            </div>
+            <div>${new Date(prompt.timestamp).toLocaleString()}</div>
         </div>
   
         <div class="details-section">
             <h3>Source</h3>
-            <a href="${prompt.sourceUrl}" target="_blank" rel="noopener noreferrer">
-              ${prompt.sourceUrl}
-            </a>
+            <a href="${prompt.sourceUrl}" target="_blank" rel="noopener noreferrer">${prompt.sourceUrl}</a>
         </div>
   
         <div class="details-section">
-            <h3>Prompt</h3>
-            <div class="details-content whitespace-pre-wrap">
-                ${this.escapeHtml(prompt.generatedPrompt)}
-            </div>
+            <h3>Prompt <button class="copy-prompt-btn" style="margin-left: 10px; padding: 0px 5px;" data-prompt="${this.escapeHtml(prompt.generatedPrompt)}">Copy</button></h3>
+            <div class="details-content whitespace-pre-wrap">${this.escapeHtml(prompt.generatedPrompt)}</div>
         </div>
       `;
   
       this.elements.detailsPanel.innerHTML = details;
+  
+      // Add click handler for the copy button
+      const copyBtn = this.elements.detailsPanel.querySelector('.copy-prompt-btn');
+      copyBtn.addEventListener('click', () => {
+        navigator.clipboard.writeText(prompt.generatedPrompt)
+          .then(() => {
+            copyBtn.textContent = 'Copied!';
+            setTimeout(() => {
+              copyBtn.textContent = 'Copy';
+            }, 2000);
+          })
+          .catch(err => console.error('Failed to copy:', err));
+      });
     }
   
     // Selection Controls
@@ -317,12 +324,8 @@ class DashboardManager {
           }
   
           element.innerHTML = `
-            <div class="prompt-meta">
-              ${new Date(prompt.timestamp).toLocaleString()}
-            </div>
-            <div class="prompt-content">
-              ${this.escapeHtml(prompt.generatedPrompt)}
-            </div>
+            <div class="prompt-meta">${new Date(prompt.timestamp).toLocaleString()}</div>
+            <div class="prompt-content">${this.escapeHtml(prompt.generatedPrompt)}</div>
           `;
   
           fragment.appendChild(element);

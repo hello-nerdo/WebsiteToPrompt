@@ -75,7 +75,12 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   } else if (request.type === 'REQUEST_INSPECT_MODE_STATUS') {
     // Popup asking for the current Inspect Mode status
     sendResponse({ enabled: inspectModeEnabled });
-  } else {
+  } 
+  else if (request.type === 'openDashboard') {
+    chrome.tabs.create({ url: chrome.runtime.getURL('dashboard.html') });
+    sendResponse({ status: 'openedDashboard' });
+  }
+  else {
     // Currently unused/no-op
     sendResponse({ status: 'no-op' });
   }

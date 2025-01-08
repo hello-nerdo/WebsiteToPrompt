@@ -115,7 +115,7 @@
     container.setAttribute('contenteditable', 'true');
     container.textContent = markdown;
 
-    // Add the control buttons (Copy, Revert)
+    // Add the control buttons (Copy, Revert, Open Dashboard)
     const controls = document.createElement('div');
     controls.className = 'website-to-prompt-controls';
     controls.setAttribute('contenteditable', 'false');
@@ -158,8 +158,19 @@
       }, 300);
     });
 
+    // Add new Dashboard button
+    const dashboardBtn = document.createElement('button');
+    dashboardBtn.textContent = 'Open Dashboard';
+    styleButton(dashboardBtn);
+    dashboardBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      chrome.runtime.sendMessage({ type: 'openDashboard' });
+    });
+
     controls.appendChild(copyBtn);
     controls.appendChild(revertBtn);
+    controls.appendChild(dashboardBtn);
     container.appendChild(controls);
 
     // Replace original element with the new container
