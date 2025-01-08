@@ -3,22 +3,30 @@ console.log('WebsiteToPrompt background script running...');
 // Track whether Inspect Mode is enabled
 let inspectModeEnabled = false;
 
-// Create the context menu when the extension is installed or updated
+// Create the context menus when the extension is installed or updated
 chrome.runtime.onInstalled.addListener(() => {
+  // 1) Inspect Mode menu
   chrome.contextMenus.create({
     id: 'toggleInspectMode',
     title: 'Inspect Mode',
+    contexts: ['all'],
+  });
+
+  // 2) New menu item: Open the Prompt Dashboard
+  chrome.contextMenus.create({
+    id: 'openDashboard',
+    title: 'Open Prompt Dashboard',
     contexts: ['all'],
   });
 });
 
 // Helper to update the context menu title based on current state
 function updateContextMenuTitle() {
-  const newTitle = "Inspect Mode"
+  const newTitle = 'Inspect Mode';
   chrome.contextMenus.update('toggleInspectMode', { title: newTitle });
 }
 
-// Toggle Inspect Mode and notify both content scripts and popup
+// Toggle Inspect Mode and notify content script + popup
 function toggleInspectMode(tabId, newState) {
   inspectModeEnabled = newState;
   updateContextMenuTitle();
@@ -42,6 +50,9 @@ function toggleInspectMode(tabId, newState) {
 chrome.contextMenus.onClicked.addListener((info, tab) => {
   if (info.menuItemId === 'toggleInspectMode') {
     toggleInspectMode(tab?.id, !inspectModeEnabled);
+  } else if (info.menuItemId === 'openDashboard') {
+    // Open the new dashboard page in a new tab
+    chrome.tabs.create({ url: chrome.runtime.getURL('dashboard.html') });
   }
 });
 

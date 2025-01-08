@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Prompt Dashboard</title>
+    <style>
+      /* Reset and Base Styles */
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell,
+          sans-serif;
+        line-height: 1.4;
+        color: #333;
+      }
+
+      /* Layout */
+      .dashboard {
+        height: 100vh;
+        display: grid;
+        grid-template-rows: auto 1fr;
+      }
+
+      .dashboard-header {
+        background: #fff;
+        border-bottom: 1px solid #e5e5e5;
+        padding: 1rem;
+      }
+
+      .header-controls {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      .view-modes {
+        display: flex;
+        gap: 0.5rem;
+      }
+
+      .view-mode-btn {
+        padding: 0.5rem 1rem;
+        border: 1px solid #e5e5e5;
+        border-radius: 4px;
+        background: #fff;
+        cursor: pointer;
+      }
+
+      .view-mode-btn.active {
+        background: #e5e7ff;
+        border-color: #6366f1;
+        color: #4f46e5;
+      }
+
+      .search-bar {
+        position: relative;
+      }
+
+      .search-input {
+        padding: 0.5rem 1rem 0.5rem 2.5rem;
+        border: 1px solid #e5e5e5;
+        border-radius: 4px;
+        width: 300px;
+      }
+
+      .search-icon {
+        position: absolute;
+        left: 0.75rem;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #6b7280;
+      }
+
+      /* Main Content */
+      .dashboard-content {
+        display: grid;
+        grid-template-columns: 1fr 2fr 1fr;
+        overflow: hidden;
+      }
+
+      .groups-panel,
+      .prompts-panel,
+      .details-panel {
+        overflow-y: auto;
+        border-right: 1px solid #e5e5e5;
+        background: #fff;
+      }
+
+      /* Groups Panel */
+      .group-item {
+        padding: 0.75rem 1rem;
+        cursor: pointer;
+        border-bottom: 1px solid #f3f4f6;
+      }
+
+      .group-item:hover {
+        background: #f9fafb;
+      }
+
+      .group-item.selected {
+        background: #e5e7ff;
+      }
+
+      /* Prompts Panel */
+      .prompt-item {
+        padding: 1rem;
+        border-bottom: 1px solid #f3f4f6;
+        cursor: pointer;
+      }
+
+      .prompt-item:hover {
+        background: #f9fafb;
+      }
+
+      .prompt-item.selected {
+        background: #e5e7ff;
+      }
+
+      .prompt-meta {
+        font-size: 0.875rem;
+        color: #6b7280;
+        margin-bottom: 0.5rem;
+      }
+
+      .prompt-content {
+        font-size: 0.875rem;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+      }
+
+      /* Details Panel */
+      .details-panel {
+        padding: 1rem;
+      }
+
+      .details-section {
+        margin-bottom: 1.5rem;
+      }
+
+      .details-section h3 {
+        font-size: 0.875rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+      }
+
+      .details-content {
+        font-size: 0.875rem;
+        background: #f9fafb;
+        padding: 0.75rem;
+        border-radius: 4px;
+        white-space: pre-wrap;
+        overflow-wrap: break-word;
+        line-height: 1.5;
+      }
+
+      /* Selection Controls */
+      .selection-controls {
+        padding: 0.5rem 1rem;
+        background: #f9fafb;
+        border-bottom: 1px solid #e5e5e5;
+        display: none;
+      }
+
+      .selection-controls.active {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      /* Utilities */
+      .hidden {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="dashboard">
+      <header class="dashboard-header">
+        <div class="header-controls">
+          <div class="view-modes">
+            <button class="view-mode-btn active" data-view="url">By URL</button>
+            <button class="view-mode-btn" data-view="date">By Date</button>
+          </div>
+          <div class="search-bar">
+            <input type="text" class="search-input" placeholder="Search prompts..." />
+            <svg class="search-icon" width="20" height="20" viewBox="0 0 20 20" fill="none">
+              <path
+                d="M8.5 3.5c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zm4.01 8.01l4.49 4.49-1.41 1.41-4.49-4.49c-.91.72-2.05 1.15-3.3 1.15-2.92 0-5.29-2.37-5.29-5.29s2.37-5.29 5.29-5.29 5.29 2.37 5.29 5.29c0 1.25-.43 2.39-1.15 3.3z"
+                fill="currentColor"
+              />
+            </svg>
+          </div>
+        </div>
+      </header>
+
+      <main class="dashboard-content">
+        <div class="groups-panel" id="groupsPanel">
+          <!-- Groups will be inserted here -->
+        </div>
+
+        <div class="prompts-panel" id="promptsPanel">
+          <div class="selection-controls" id="selectionControls">
+            <span class="selected-count">0 selected</span>
+            <button class="select-all-btn">Select All</button>
+            <button class="export-btn">Export</button>
+            <button class="delete-btn">Delete</button>
+          </div>
+          <!-- Prompts will be inserted here -->
+        </div>
+
+        <div class="details-panel" id="detailsPanel">
+          <!-- Details will be inserted here -->
+        </div>
+      </main>
+    </div>
+
+    <!-- IMPORTANT: Load the dashboard logic -->
+    <script src="dashboard.js"></script>
+  </body>
+</html>

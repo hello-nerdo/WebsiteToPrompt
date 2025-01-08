@@ -22,7 +22,7 @@
     }
   },
   "icons": {
-    "16": "icons/favicon-16x16.png", 
+    "16": "icons/favicon-16x16.png",
     "32": "icons/favicon-32x32.png",
     "192": "icons/android-chrome-192x192.png",
     "512": "icons/android-chrome-512x512.png"
@@ -38,6 +38,17 @@
       "js": [
         "libs/turndown.js",
         "content-script.js"
+      ]
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "dashboard.html",
+        "dashboard.js"
+      ],
+      "matches": [
+        "<all_urls>"
       ]
     }
   ]

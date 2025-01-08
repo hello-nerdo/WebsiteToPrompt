@@ -19,13 +19,11 @@
     return turndownService.turndown(html);
   }
 
-  // Inject minimal CSS for .website-to-prompt-container & controls
+  // Inject minimal CSS for highlighting
   injectStyles();
 
-  /**
-   * Toggle Inspect Mode message from popup.
-   */
   chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+    // 1) Toggle selection mode
     if (request.type === 'TOGGLE_SELECTION_MODE') {
       selectionMode = request.enabled;
       if (selectionMode) {
@@ -37,6 +35,7 @@
     }
   });
 
+  // Selection Mode helpers
   function enableSelectionMode() {
     console.log('Enabling selection mode...');
     document.addEventListener('mouseover', handleMouseOver, true);
@@ -80,26 +79,33 @@
     // Convert + replace the clicked element
     transformElement(e.target);
 
-    // Disable selection after one click
-    disableSelectionMode();
-    selectionMode = false;
+    // OPTIONAL: Comment these out to allow multiple captures in a row
+    // disableSelectionMode();
+    // selectionMode = false;
   }
 
   /**
    * Convert the clicked element to Markdown, store original HTML, and replace in DOM.
+   * Also auto-save the data to local storage.
    */
   function transformElement(element) {
     const originalHTML = element.outerHTML;
     const selectorPath = getElementSelectorPath(element);
     const uniqueId = window.location.pathname + '//' + selectorPath;
 
-    // Store the original HTML
+    // Convert using Turndown
+    const markdown = htmlToMarkdown(originalHTML);
+
+    // Save originalHTML in localStorage for revert functionality
     localStorage.setItem(uniqueId, originalHTML);
 
-    // -------------------------------------------------------------------
-    // 3) Convert using Turndown
-    // -------------------------------------------------------------------
-    const markdown = htmlToMarkdown(originalHTML);
+    // NEW: auto-save prompt data to chrome.storage.local
+    autoSavePrompt({
+      url: window.location.href,
+      elementPath: selectorPath,
+      elementHtml: originalHTML,
+      generatedPrompt: markdown,
+    });
 
     // Create container to display the Markdown
     const container = document.createElement('div');
@@ -111,13 +117,12 @@
     // Add the control buttons (Copy, Revert)
     const controls = document.createElement('div');
     controls.className = 'website-to-prompt-controls';
-    controls.setAttribute('contenteditable', 'false'); // Prevent editing controls
+    controls.setAttribute('contenteditable', 'false');
     controls.style.cursor = 'default';
 
     const copyBtn = document.createElement('button');
     copyBtn.textContent = 'Copy';
-    copyBtn.style.cssText =
-      'padding: 4px 8px; margin: 0 4px; cursor: pointer; border: 1px solid #ccc; border-radius: 4px; background: #fff; color: black !important;';
+    styleButton(copyBtn);
     copyBtn.addEventListener('click', () => {
       navigator.clipboard
         .writeText(container.textContent)
@@ -143,10 +148,8 @@
 
     const revertBtn = document.createElement('button');
     revertBtn.textContent = 'Revert';
-    revertBtn.style.cssText =
-      'padding: 4px 8px; margin: 0 4px; cursor: pointer; border: 1px solid #ccc; border-radius: 4px; background: #fff; color: black !important;';
+    styleButton(revertBtn);
     revertBtn.addEventListener('click', () => {
-      const originalText = revertBtn.textContent;
       revertBtn.textContent = 'Reverting...';
       revertBtn.style.backgroundColor = '#fff3e6';
       setTimeout(() => {
@@ -163,6 +166,36 @@
   }
 
   /**
+   * Auto-save the selected element data to chrome.storage.local,
+   * using an enhanced data model. After saving, notify the Dashboard so it can reload.
+   */
+  function autoSavePrompt({ url, elementPath, elementHtml, generatedPrompt }) {
+    const record = {
+      id: Date.now() + '_' + Math.random().toString(36).slice(2),
+      timestamp: Date.now(),
+      sourceUrl: url,
+      elementPath,
+      elementContent: elementHtml,
+      generatedPrompt,
+      tags: [],
+    };
+
+    chrome.storage.local.get(['wtpPrompts'], (res) => {
+      let allPrompts = res.wtpPrompts || [];
+      allPrompts.push(record);
+      chrome.storage.local.set({ wtpPrompts: allPrompts }, () => {
+        if (chrome.runtime.lastError) {
+          console.error('Error saving prompt data:', chrome.runtime.lastError);
+        } else {
+          console.log('Prompt auto-saved:', record);
+          // Notify the dashboard so it can reload immediately
+          chrome.runtime.sendMessage({ type: 'PROMPT_SAVED' });
+        }
+      });
+    });
+  }
+
+  /**
    * Restore the original HTML from localStorage, removing the Markdown container.
    */
   function revertElement(container) {
@@ -172,6 +205,9 @@
       container.insertAdjacentHTML('beforebegin', originalHTML);
       container.remove();
       localStorage.removeItem(uniqueId);
+    } else {
+      // If we have no localStorage, just remove the container
+      container.remove();
     }
   }
 
@@ -199,7 +235,7 @@
         }
       }
 
-      // Find element index among siblings for :nth-child()
+      // :nth-child
       if (current.parentNode) {
         const siblings = Array.from(current.parentNode.children);
         const index = siblings.indexOf(current) + 1;
@@ -213,9 +249,7 @@
     return path;
   }
 
-  /**
-   * Creates the highlight overlay (blue-ish rectangle).
-   */
+  // Create the highlight overlay (blue-ish rectangle).
   function createOverlayElement() {
     highlightOverlay = document.createElement('div');
     highlightOverlay.id = 'websiteToPrompt_highlightOverlay';
@@ -254,5 +288,17 @@
       }
     `;
     document.head.appendChild(style);
+  }
+
+  function styleButton(btn) {
+    btn.style.cssText = `
+      padding: 4px 8px;
+      margin: 0 4px;
+      cursor: pointer;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      background: #fff;
+      color: black !important;
+    `;
   }
 })();

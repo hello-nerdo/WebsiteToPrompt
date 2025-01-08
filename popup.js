@@ -9,7 +9,8 @@ document.addEventListener('DOMContentLoaded', () => {
   chrome.runtime.sendMessage({ type: 'REQUEST_INSPECT_MODE_STATUS' }, (response) => {
     if (response && typeof response.enabled === 'boolean') {
       selectionEnabled = response.enabled;
-      toggleSelectionBtn.textContent = "Inspect Mode"
+      // Dynamically set the button text
+      toggleSelectionBtn.textContent = selectionEnabled ? 'Disable Inspect' : 'Enable Inspect';
     }
   });
 
@@ -17,7 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
   chrome.runtime.onMessage.addListener((message) => {
     if (message.type === 'INSPECT_MODE_STATUS') {
       selectionEnabled = message.enabled;
-      toggleSelectionBtn.textContent = "Inspect Mode"
+      toggleSelectionBtn.textContent = selectionEnabled ? 'Disable Inspect' : 'Enable Inspect';
     }
   });
 
@@ -27,5 +28,11 @@ document.addEventListener('DOMContentLoaded', () => {
       type: 'TOGGLE_SELECTION_MODE',
       enabled: !selectionEnabled,
     });
+  });
+
+  // NEW: Open Dashboard from popup
+  const openDashboardBtn = document.getElementById('openDashboardBtn');
+  openDashboardBtn.addEventListener('click', () => {
+    chrome.tabs.create({ url: chrome.runtime.getURL('dashboard.html') });
   });
 });
