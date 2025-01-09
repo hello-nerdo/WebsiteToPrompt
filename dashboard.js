@@ -1,4 +1,3 @@
-// Dashboard Manager Class
 class DashboardManager {
   constructor() {
     // State
@@ -238,8 +237,12 @@ class DashboardManager {
         </div>
   
         <div class="details-section">
-            <h3>Prompt <button class="copy-prompt-btn" style="margin-left: 10px; padding: 0px 5px;" data-prompt="${this.escapeHtml(prompt.generatedPrompt)}">Copy</button></h3>
-            <div class="details-content whitespace-pre-wrap">${this.escapeHtml(prompt.generatedPrompt)}</div>
+            <h3>Prompt <button class="copy-prompt-btn" style="margin-left: 10px; padding: 0px 5px;" data-prompt="${this.escapeHtml(
+              prompt.generatedPrompt
+            )}">Copy</button></h3>
+            <div class="details-content whitespace-pre-wrap">${this.escapeHtml(
+              prompt.generatedPrompt
+            )}</div>
         </div>
       `;
 
@@ -275,17 +278,15 @@ class DashboardManager {
   renderDashboard() {
     const grouped = this.groupPrompts();
 
-    // Auto-select first group and prompt if nothing is selected
+    // Auto-select first group if none selected
     if (!this.state.selectedGroup && Object.keys(grouped).length > 0) {
       const firstGroup = Object.keys(grouped)[0];
       this.state.selectedGroup = firstGroup;
 
-      // Select first prompt in group if it exists
       const firstPrompt = grouped[firstGroup][0];
       if (firstPrompt) {
         this.state.selectedPrompts.clear();
         this.state.selectedPrompts.add(firstPrompt.id);
-        // Show details for first prompt
         setTimeout(() => {
           this.showDetails(firstPrompt.id);
           this.updateSelectionControls();
@@ -386,7 +387,6 @@ class DashboardManager {
   exportSelected() {
     try {
       const selectedPrompts = this.state.prompts.filter((p) => this.state.selectedPrompts.has(p.id));
-
       if (selectedPrompts.length === 0) return;
 
       const markdownWithXml = selectedPrompts
@@ -412,16 +412,11 @@ class DashboardManager {
       const selectedIds = Array.from(this.state.selectedPrompts);
       this.state.prompts = this.state.prompts.filter((p) => !selectedIds.includes(p.id));
 
-      chrome.storage.local.set(
-        {
-          wtpPrompts: this.state.prompts,
-        },
-        () => {
-          if (chrome.runtime.lastError) {
-            console.error('Failed to remove selected prompts:', chrome.runtime.lastError);
-          }
+      chrome.storage.local.set({ wtpPrompts: this.state.prompts }, () => {
+        if (chrome.runtime.lastError) {
+          console.error('Failed to remove selected prompts:', chrome.runtime.lastError);
         }
-      );
+      });
 
       this.state.selectedPrompts.clear();
       this.renderDashboard();
@@ -438,7 +433,6 @@ class DashboardManager {
     const startResize = (e) => {
       isResizing = true;
       startX = e.pageX;
-      // current width of the promptsPanel
       startWidth = this.elements.promptsPanel.offsetWidth;
       this.elements.panelResizer.classList.add('active');
       document.body.style.cursor = 'col-resize';

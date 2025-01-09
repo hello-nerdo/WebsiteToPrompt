@@ -41,4 +41,5 @@ A Chrome extension that lets you select HTML elements on a webpage (via a simple
 ## Development & References
 
 - This extension depends on [Turndown](https://github.com/domchristie/turndown) for HTML-to-Markdown conversion.
+- **New**: Integrated basic [Google Analytics 4](https://analytics.google.com/) event tracking using the Measurement Protocol.
 - Compare with other prompt generation or data-collection techniques for advanced usage.

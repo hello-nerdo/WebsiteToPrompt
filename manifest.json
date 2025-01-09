@@ -28,7 +28,8 @@
     "512": "icons/android-chrome-512x512.png"
   },
   "background": {
-    "service_worker": "background.js"
+    "service_worker": "background.js",
+    "type": "module"
   },
   "content_scripts": [
     {

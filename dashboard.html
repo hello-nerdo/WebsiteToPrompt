@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <title>WebsiteToPrompt Dashboard</title>
     <style>
-      /* Reset and Base Styles */
+      /* Main Dashboard Styles (Minor comment: you can customize these!) */
       * {
         box-sizing: border-box;
         margin: 0;
@@ -77,17 +77,15 @@
         color: #6b7280;
       }
 
-      /* Main Content (Use flex instead of grid) */
       .dashboard-content {
-        flex: 1; /* occupy remaining vertical space */
+        flex: 1;
         display: flex;
         flex-flow: row nowrap;
-        max-height: calc(100vh - 90px); /* 50px header + 40px footer */
-        min-height: 0; /* allows flex child to shrink below content size */
-        overflow: hidden; /* prevent content from spilling out */
+        max-height: calc(100vh - 90px);
+        min-height: 0;
+        overflow: hidden;
       }
 
-      /* Groups Panel */
       .groups-panel {
         width: 200px;
         border-right: 1px solid #e5e5e5;
@@ -106,9 +104,7 @@
         background: #e5e7ff;
       }
 
-      /* Prompts Panel */
       .prompts-panel {
-        /* Start with some default width; user can resize */
         width: 480px;
         border-right: 1px solid #e5e5e5;
         background: #fff;
@@ -142,7 +138,6 @@
         -webkit-box-orient: vertical;
       }
 
-      /* The resizer handle */
       .panel-resizer {
         width: 10px;
         cursor: col-resize;
@@ -166,7 +161,6 @@
         border-radius: 2px;
       }
 
-      /* Details Panel (fills remaining space) */
       .details-panel {
         flex: 1;
         background: #fff;
@@ -194,7 +188,6 @@
         overflow-y: auto;
       }
 
-      /* Selection Controls */
       .selection-controls {
         padding: 0.5rem 1rem;
         background: #f9fafb;
@@ -223,12 +216,10 @@
         border-color: #4f46e5;
       }
 
-      /* Utilities */
       .hidden {
         display: none;
       }
 
-      /* Footer Styles */
       .dashboard-footer {
         background: #ffeea2;
         padding: 4px;

@@ -1,4 +1,5 @@
 (function () {
+  // This content script handles selection highlighting and element transformations.
   console.log('WebsiteToPrompt content script loaded.');
 
   let selectionMode = false;
@@ -19,7 +20,7 @@
     // remove script tags
     html = html.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '');
 
-    // remvoe style tags
+    // remove style tags
     html = html.replace(/<style\b[^<]*(?:(?!<\/style>)<[^<]*)*<\/style>/gi, '');
 
     const markdown = turndownService.turndown(html).trim();
@@ -185,7 +186,7 @@
 
   /**
    * Auto-save the selected element data to chrome.storage.local,
-   * using an enhanced data model. After saving, notify the Dashboard so it can reload.
+   * using an enhanced data model. After saving, notify the Dashboard.
    */
   function autoSavePrompt({ url, elementPath, elementHtml, generatedPrompt }) {
     const record = {
@@ -272,7 +273,6 @@
     highlightOverlay = document.createElement('div');
     highlightOverlay.id = 'websiteToPrompt_highlightOverlay';
     highlightOverlay.style.position = 'absolute';
-    // Increase zIndex so it’s always on top
     highlightOverlay.style.zIndex = '999999';
     highlightOverlay.style.backgroundColor = 'rgba(135,206,235, 0.3)';
     highlightOverlay.style.pointerEvents = 'none';

@@ -1,3 +1,5 @@
+import { trackEvent } from './analytics.js';
+
 console.log('WebsiteToPrompt background script running...');
 
 // Track whether Selection Mode is enabled
@@ -20,11 +22,14 @@ chrome.runtime.onInstalled.addListener(() => {
   });
 });
 
-// Toggle Selection Mode and notify content script + popup
+/**
+ * Toggle Selection Mode and notify content scripts + popup.
+ * Also track the event.
+ */
 function toggleSelectionMode(tabId, newState) {
   inspectModeEnabled = newState;
 
-  // If we don't have a valid tabId, fall back to querying the active tab
+  // Notify the content script in the current tab (if available)
   if (tabId === undefined || tabId < 0) {
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
       if (tabs && tabs.length > 0) {
@@ -35,18 +40,20 @@ function toggleSelectionMode(tabId, newState) {
       }
     });
   } else {
-    // Notify the content script in the current tab (if available)
     chrome.tabs.sendMessage(tabId, {
       type: 'TOGGLE_SELECTION_MODE',
       enabled: inspectModeEnabled,
     });
   }
 
-  // Notify the popup (if it's open) so it can update its button text
+  // Notify the popup (if it's open)
   chrome.runtime.sendMessage({
     type: 'INSPECT_MODE_STATUS',
     enabled: inspectModeEnabled,
   });
+
+  // GA4: Track toggling event
+  trackEvent('toggle_selection_mode', { newState: newState });
 }
 
 // Listen for context menu clicks
@@ -56,24 +63,26 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
   } else if (info.menuItemId === 'openDashboard') {
     // Open the new dashboard page in a new tab
     chrome.tabs.create({ url: chrome.runtime.getURL('dashboard.html') });
+    // GA4: track context menu open
+    trackEvent('open_dashboard', { source: 'context_menu' });
   }
 });
 
 // Listen for messages from popup or any other script
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if (request.type === 'TOGGLE_SELECTION_MODE') {
-    // Toggling from the popup
     toggleSelectionMode(sender.tab?.id, request.enabled);
     sendResponse({ status: 'ok' });
   } else if (request.type === 'REQUEST_INSPECT_MODE_STATUS') {
     // Popup asking for the current Selection Mode status
     sendResponse({ enabled: inspectModeEnabled });
-  } 
-  else if (request.type === 'openDashboard') {
+  } else if (request.type === 'openDashboard') {
+    // Open the new dashboard page in a new tab
     chrome.tabs.create({ url: chrome.runtime.getURL('dashboard.html') });
+    // GA4: track if user opened from popup
+    trackEvent('open_dashboard', { source: 'popup' });
     sendResponse({ status: 'openedDashboard' });
-  }
-  else {
+  } else {
     // Currently unused/no-op
     sendResponse({ status: 'no-op' });
   }
