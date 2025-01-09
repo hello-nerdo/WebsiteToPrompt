@@ -82,7 +82,9 @@
         flex: 1; /* occupy remaining vertical space */
         display: flex;
         flex-flow: row nowrap;
-        height: 100%;
+        max-height: calc(100vh - 90px); /* 50px header + 40px footer */
+        min-height: 0; /* allows flex child to shrink below content size */
+        overflow: hidden; /* prevent content from spilling out */
       }
 
       /* Groups Panel */
@@ -188,6 +190,8 @@
         padding: 0.75rem;
         border-radius: 4px;
         white-space: pre-wrap;
+        height: 100%;
+        overflow-y: auto;
       }
 
       /* Selection Controls */
@@ -222,6 +226,37 @@
       /* Utilities */
       .hidden {
         display: none;
+      }
+
+      /* Footer Styles */
+      .dashboard-footer {
+        background: #ffeea2;
+        padding: 4px;
+        position: sticky;
+        bottom: 0;
+        z-index: 10;
+        border-top: 1px solid #e5e5e5;
+      }
+
+      .donation-button {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        padding: 4px;
+        border: none;
+        background: none;
+        color: #1a202c;
+        font-weight: 600;
+        font-size: 1rem;
+        text-decoration: none;
+      }
+
+      .donation-button .profile-pic {
+        width: 20px;
+        height: 20px;
+        margin-right: 8px;
+        border-radius: 50%;
       }
     </style>
   </head>
@@ -267,6 +302,17 @@
           <!-- Details will be inserted here -->
         </div>
       </main>
+      <footer class="dashboard-footer">
+        <a
+          href="https://www.buymeacoffee.com/hello_nerdzs"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="donation-button"
+        >
+          <img src="logo.png" alt="Profile" class="profile-pic" />
+          <span>`npm install coffee`</span>
+        </a>
+      </footer>
     </div>
     <script src="dashboard.js"></script>
   </body>
