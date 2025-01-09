@@ -112,13 +112,13 @@
     const container = document.createElement('div');
     container.className = 'website-to-prompt-container';
     container.setAttribute('data-wtp-id', uniqueId);
-    container.setAttribute('contenteditable', 'true');
+    // container.setAttribute('contenteditable', 'true');
     container.textContent = markdown;
 
     // Add the control buttons (Copy, Revert, Open Dashboard)
     const controls = document.createElement('div');
     controls.className = 'website-to-prompt-controls';
-    controls.setAttribute('contenteditable', 'false');
+    // controls.setAttribute('contenteditable', 'false');
     controls.style.cursor = 'default';
 
     const copyBtn = document.createElement('button');
