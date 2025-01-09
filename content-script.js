@@ -16,6 +16,12 @@
   });
 
   function htmlToMarkdown(html) {
+    // remove script tags
+    html = html.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '');
+
+    // remvoe style tags
+    html = html.replace(/<style\b[^<]*(?:(?!<\/style>)<[^<]*)*<\/style>/gi, '');
+
     const markdown = turndownService.turndown(html).trim();
     return markdown.replace(/\n{3,}/g, '\n\n').trim();
   }
