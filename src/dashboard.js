@@ -390,7 +390,7 @@ class DashboardManager {
       if (selectedPrompts.length === 0) return;
 
       const markdownWithXml = selectedPrompts
-        .map((p) => `<document name="${p.sourceUrl}">\n${p.generatedPrompt}\n</document>`)
+        .map((p) => `<website_section name="${p.sourceUrl}">\n${p.generatedPrompt}\n</website_section>`)
         .join('\n\n');
 
       navigator.clipboard
