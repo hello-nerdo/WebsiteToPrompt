@@ -17,7 +17,7 @@ chrome.runtime.onInstalled.addListener(() => {
   // 2) New menu item: Open the WebsiteToPrompt Dashboard
   chrome.contextMenus.create({
     id: 'openDashboard',
-    title: 'Open WebsiteToPrompt Dashboard',
+    title: 'Open Dashboard',
     contexts: ['all'],
   });
 });

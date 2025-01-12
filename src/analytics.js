@@ -3,10 +3,12 @@
    -----------------------------------------
    Helper functions to send Google Analytics 4 events via the Measurement Protocol.
    Replace MEASUREMENT_ID and API_SECRET with your real GA4 credentials.
+
 ------------------------------------------ */
 
-const MEASUREMENT_ID = 'G-J2X33F3Z0N';
-const API_SECRET = '';
+// load GA_PART1, GA_PART2, GA_PART3, GA_PART4, GA_PART5 from .env
+const GA_PART1 = process.env.GA_PART1 || '';
+const GA_PART2 = process.env.GA_PART2 || '';
 
 // GA endpoint for sending events
 const GA_ENDPOINT = 'https://www.google-analytics.com/mp/collect';
@@ -87,8 +89,9 @@ export async function trackEvent(eventName, eventParams = {}) {
     };
 
     // if API_SECRET is not empty, fetch else don't
-    if (API_SECRET) {
-      await fetch(`${GA_ENDPOINT}?measurement_id=${MEASUREMENT_ID}&api_secret=${API_SECRET}`, {
+    if (GA_PART2.length > 0) {
+      console.log('API_SECRET', GA_PART2);
+      await fetch(`${GA_ENDPOINT}?measurement_id=${GA_PART1}&api_secret=${GA_PART2}`, {
         method: 'POST',
         body: JSON.stringify(payload),
       });
