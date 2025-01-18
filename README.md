@@ -1,45 +1,56 @@
 # WebsiteToPrompt
 
-A Chrome extension that lets you select HTML elements on a webpage (via a simple inspect-like tool) and compile them into Markdown. The extension **automatically saves** these selections as "prompts," which you can then manage, export, or delete in the new **Prompt Management Dashboard**.
+A free, open-source Chrome extension that helps you convert webpage content into well-formatted prompts for ChatGPT or any other AI tool. It preserves headers, lists, links, and other text formatting, ensuring your AI conversations remain clear and structured.
 
 ## Features
 
-1. **Selection Mode**:
+1. **One-Click Selection Mode**:
+   - Toggle Selection Mode to hover over any paragraph, list, or section.
+   - Click to capture content, automatically converting it to clean Markdown.
+   - Retains original layout without random line breaks or missing headers.
 
-   - Toggle from the extension popup or context menu.
-   - Hover/click on elements in the current tab to capture them.
-   - Captured elements are automatically converted to Markdown and stored.
+2. **Personal Prompt Library**:
+   - Each selected snippet saves to a private library within the extension.
+   - Uses Chrome's local storage - no complicated setup needed.
+   - Everything stays on your device unless explicitly copied elsewhere.
 
-2. **WebsiteToPrompt Dashboard**:
+3. **Prompt Management Dashboard**:
+   - Categorize prompts by website domain or capture date
+   - Quick search and filter functionality
+   - Bulk actions: Select multiple snippets to copy or delete
+   - View, manage, and export your saved content
 
-   - Open via popup button or context menu: "Open WebsiteToPrompt Dashboard."
-   - View, search, delete, or export your saved prompts.
-   - Each prompt includes a timestamp, URL, element path, HTML, and generated Markdown.
+4. **Format Preservation**:
+   - Maintains headers, lists, and clickable links
+   - Clean, structured output for better AI processing
+   - Perfect for ChatGPT, documentation, or research notes
 
-3. **Auto-Save**:
-   - On each selected element, the extension auto-saves prompt data to `chrome.storage.local`.
+5. **Privacy & Security**:
+   - Open-source code available on GitHub
+   - Local storage only - your data stays on your device
+   - Minimal analytics tracking for basic usage patterns
+   - No personal information collected or sold
 
 ## Installation
 
-1. Clone or download this repository.
-2. Visit `chrome://extensions/` in Google Chrome (or another Chromium-based browser).
-3. Toggle on **Developer Mode**.
-4. Click **"Load unpacked"** and select this `WebsiteToPrompt` folder.
-5. (Optional) Pin the extension icon.
+1. Install from the Chrome Web Store
+2. Pin the extension to your toolbar
+3. Enable Selection Mode on any webpage
+4. Start capturing content with a single click
 
 ## How to Use
 
-1. Click the extension icon to open the popup.
-2. Toggle **"Selection Mode"**. Hover over the desired element in the active webpage and click it to capture.
-3. The selected element is replaced in-page with a Markdown snippet. The original HTML is auto-saved in the extension’s local storage.
-4. To manage your saved prompts, open the **WebsiteToPrompt Dashboard** either from the popup or the context menu ("Open WebsiteToPrompt Dashboard").
-5. In the dashboard:
-   - **Search** prompts by URL or text.
-   - **Delete** selected prompts.
-   - **Export** selected prompts in JSON format.
+1. Click the extension icon
+2. Toggle "Selection Mode"
+3. Hover over desired content and click to capture
+4. Access your saved prompts through the Dashboard where you can:
+   - Search by URL or content
+   - Delete unwanted prompts
+   - Export selections in various formats
+   - Combine multiple snippets into single prompts
 
-## Development & References
+## Technical Details
 
-- This extension depends on [Turndown](https://github.com/domchristie/turndown) for HTML-to-Markdown conversion.
-- **New**: Integrated basic [Google Analytics 4](https://analytics.google.com/) event tracking using the Measurement Protocol.
-- Compare with other prompt generation or data-collection techniques for advanced usage.
+- Built on [Turndown](https://github.com/domchristie/turndown) for HTML-to-Markdown conversion
+- Uses Chrome's local storage API for data persistence
+- Implements Google Analytics for anonymous usage metrics

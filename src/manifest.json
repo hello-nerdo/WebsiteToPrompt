@@ -1,6 +1,6 @@
 {
   "name": "WebsiteToPrompt",
-  "description": "Select web elements and transform them to Markdown directly on the page",
+  "description": "Quickly capture and convert webpage content into structured Markdown for use with AI tools.",
   "version": "0.0.1",
   "manifest_version": 3,
   "permissions": [

@@ -42,6 +42,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const githubLink = document.getElementById('githubLink');
   githubLink.addEventListener('click', (e) => {
     e.preventDefault();
-    chrome.tabs.create({ url: 'https://github.com/path-find-er/WebsiteToPrompt' });
+    chrome.tabs.create({ url: 'https://github.com/hello-nerdo/WebsiteToPrompt' });
   });
 });

@@ -1,12 +1,12 @@
 {
   "name": "websitetoprompt",
   "version": "0.0.1",
-  "description": "A Chrome extension that lets you select HTML elements on a webpage (via a simple inspect-like tool) and compile them into Markdown. The extension **automatically saves** these selections as \"prompts,\" which you can then manage, export, or delete in the new **Prompt Management Dashboard**.",
+  "description": "This Chrome extension allows you to select webpage elements and convert them into Markdown. Your selections are automatically saved as prompts, which can be managed, exported, or deleted through the Prompt Management Dashboard.",
   "main": "webpack.config.js",
   "scripts": {
     "pack": "npx webpack --config webpack.config.js"
   },
-  "author": "https://github.com/path-find-er",
+  "author": "https://github.com/hello-nerdo",
   "license": "MIT",
   "devDependencies": {
     "copy-webpack-plugin": "^12.0.2",
