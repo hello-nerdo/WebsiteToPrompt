@@ -2,6 +2,12 @@
 
 A free, open-source Chrome extension that helps you convert webpage content into well-formatted prompts for ChatGPT or any other AI tool. It preserves headers, lists, links, and other text formatting, ensuring your AI conversations remain clear and structured.
 
+## 1. Generating Prompts from Any Webpage
+![Screenshot demonstrating how WebsiteToPrompt captures text from a Zapier blog post titled "What is ChatGPT?" and converts it into markdown prompts—preserving headings, lists, and links for seamless integration with AI tools.](screenshot-webpage.png)
+
+## 2. Sorting, Searching, and Visiting Snippets
+![Screenshot of the extension's prompt management dashboard, highlighting options to "Sort by URL" on the left sidebar, "Find by text" in the top search bar, and the ability to copy or delete prompts in bulk. "www.scad.edu" is shown as part of the user's private library, and a snippet from Zapier is displayed in the main panel.](screenshot-dashboard.png)
+
 ## Features
 
 1. **One-Click Selection Mode**:
