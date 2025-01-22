@@ -1,11 +1,3 @@
-/* -----------------------------------------
-   WebsiteToPrompt/analytics.js
-   -----------------------------------------
-   Helper functions to send Google Analytics 4 events via the Measurement Protocol.
-   Replace MEASUREMENT_ID and API_SECRET with your real GA4 credentials.
-
------------------------------------------- */
-
 function drop_spaces(str) {
   return str.replace(/\s+/g, '');
 }
@@ -18,14 +10,10 @@ const GA_PART2 = process.env.GA_PART2
 const GA_PART3 = drop_spaces(process.env.GA_PART3)
 const GA_PART4 = drop_spaces(process.env.GA_PART4)
 const GA_PART5 = process.env.GA_PART5
-const GA_PART6 = drop_space(process.env.GA_PART6)
-const GA_PART7 = drop_spaces(process.env.GA_PART7)
-const GA_PART8 = drop_spaces(process.env.GA_PART8)
-const GA_PART9 = process.env.GA_PART9
 const GA_PART10 = drop_spaces(process.env.GA_PART10)
 
 const PARTA = GA_PART1 + drop_spaces(GA_PART2) + GA_PART3 + GA_PART4 
-const PARTB = drop_spaces(GA_PART5) + GA_PART6 + drop_space(GA_PART7) + GA_PART8 + drop_spaces(GA_PART9) + drop_spaces(GA_PART10)
+const GA_PART6 = drop_space(process.env.GA_PART6)
 
 // GA endpoint for sending events
 const GA_ENDPOINT = 'https://www.google-analytics.com/mp/collect';
@@ -34,10 +22,13 @@ const GA_ENDPOINT = 'https://www.google-analytics.com/mp/collect';
 const SESSION_EXPIRATION_IN_MIN = 30;
 const DEFAULT_ENGAGEMENT_TIME_IN_MSEC = 100;
 
+const GA_PART7 = drop_spaces(process.env.GA_PART7)
+const GA_PART8 = drop_spaces(process.env.GA_PART8)
+const GA_PART9 = process.env.GA_PART9
 /**
  * Retrieve or generate a unique client_id for this user/browser
  * Store in chrome.storage.local so it persists across browser restarts.
- */
+*/
 async function getOrCreateClientId() {
   const result = await chrome.storage.local.get('clientId');
   let clientId = result.clientId;
@@ -47,6 +38,7 @@ async function getOrCreateClientId() {
   }
   return clientId;
 }
+const PARTB = drop_spaces(GA_PART5) + GA_PART6 + drop_space(GA_PART7) + GA_PART8 + drop_spaces(GA_PART9) + drop_spaces(GA_PART10)
 
 /**
  * Retrieve or create a session_id for Realtime and standard GA4 reports.
