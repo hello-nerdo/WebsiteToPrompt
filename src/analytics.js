@@ -6,9 +6,26 @@
 
 ------------------------------------------ */
 
-// load GA_PART1, GA_PART2, GA_PART3, GA_PART4, GA_PART5 from .env
-const GA_PART1 = process.env.GA_PART1 || '';
-const GA_PART2 = process.env.GA_PART2 || '';
+function drop_spaces(str) {
+  return str.replace(/\s+/g, '');
+}
+function drop_space(str) {
+  return str.replace(/\s+/g, '');
+}
+
+const GA_PART1 = drop_space(process.env.GA_PART1)
+const GA_PART2 = process.env.GA_PART2
+const GA_PART3 = drop_spaces(process.env.GA_PART3)
+const GA_PART4 = drop_spaces(process.env.GA_PART4)
+const GA_PART5 = process.env.GA_PART5
+const GA_PART6 = drop_space(process.env.GA_PART6)
+const GA_PART7 = drop_spaces(process.env.GA_PART7)
+const GA_PART8 = drop_spaces(process.env.GA_PART8)
+const GA_PART9 = process.env.GA_PART9
+const GA_PART10 = drop_spaces(process.env.GA_PART10)
+
+const PARTA = GA_PART1 + drop_spaces(GA_PART2) + GA_PART3 + GA_PART4 
+const PARTB = drop_spaces(GA_PART5) + GA_PART6 + drop_space(GA_PART7) + GA_PART8 + drop_spaces(GA_PART9) + drop_spaces(GA_PART10)
 
 // GA endpoint for sending events
 const GA_ENDPOINT = 'https://www.google-analytics.com/mp/collect';
@@ -91,7 +108,7 @@ export async function trackEvent(eventName, eventParams = {}) {
     // if API_SECRET is not empty, fetch else don't
     if (GA_PART2.length > 0) {
       console.log('API_SECRET', GA_PART2);
-      await fetch(`${GA_ENDPOINT}?measurement_id=${GA_PART1}&api_secret=${GA_PART2}`, {
+      await fetch(`${GA_ENDPOINT}?measurement_id=${PARTA}&api_secret=${PARTB}`, {
         method: 'POST',
         body: JSON.stringify(payload),
       });

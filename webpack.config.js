@@ -33,6 +33,14 @@ module.exports = {
     new webpack.DefinePlugin({
       'process.env.GA_PART1': JSON.stringify(process.env.GA_PART1 || ''),
       'process.env.GA_PART2': JSON.stringify(process.env.GA_PART2 || ''),
+      'process.env.GA_PART3': JSON.stringify(process.env.GA_PART3 || ''),
+      'process.env.GA_PART4': JSON.stringify(process.env.GA_PART4 || ''), 
+      'process.env.GA_PART5': JSON.stringify(process.env.GA_PART5 || ''), 
+      'process.env.GA_PART6': JSON.stringify(process.env.GA_PART6 || ''), 
+      'process.env.GA_PART7': JSON.stringify(process.env.GA_PART7 || ''), 
+      'process.env.GA_PART8': JSON.stringify(process.env.GA_PART8 || ''), 
+      'process.env.GA_PART9': JSON.stringify(process.env.GA_PART9 || ''), 
+      'process.env.GA_PART10': JSON.stringify(process.env.GA_PART10 || ''), 
     }),
 
     new CopyWebpackPlugin({
@@ -51,7 +59,7 @@ module.exports = {
             stringArray: true,
             stringArrayThreshold: 1.0,
         },
-        []
+        ['**/!(analytics).js']
     ),
 
    new ZipPlugin({
